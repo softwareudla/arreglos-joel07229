@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 
 int main()
 {
@@ -21,7 +22,8 @@ int main()
     for (int i = 0; i < 5; i++)
     {
         printf("Ingrese el nombre del estudiante %d: ", i + 1);
-        scanf(" %29[^\n]", estudiantes[i]); 
+        fgets(estudiantes[i], 30, stdin);
+        estudiantes[i][strcspn(estudiantes[i], "\n")] = '\0';
     }
 
     printf("\n=== INGRESO DE NOTAS ===\n");
@@ -60,34 +62,18 @@ int main()
         } while (NM3[i] < 0 || NM3[i] > 10);
     }
 
+    
+    minM1 = minM2 = minM3 = 10;
+    maxM1 = maxM2 = maxM3 = 0;
+
     for (int i = 0; i < 5; i++)
     {
-        if (NM1[i] >= maxM1)
-        {
-            maxM1 = NM1[i];
-        }
-        if (NM1[i] < minM1)
-        {
-            minM1 = NM1[i];
-        }
-
-        if (NM2[i] >= maxM2)
-        {
-            maxM2 = NM2[i];
-        }
-        if (NM2[i] < minM2)
-        {
-            minM2 = NM2[i];
-        }
-
-        if (NM3[i] >= maxM3)
-        {
-            maxM3 = NM3[i];
-        }
-        if (NM3[i] < minM3)
-        {
-            minM3 = NM3[i];
-        }
+        if (NM1[i] > maxM1) maxM1 = NM1[i];
+        if (NM1[i] < minM1) minM1 = NM1[i];
+        if (NM2[i] > maxM2) maxM2 = NM2[i];
+        if (NM2[i] < minM2) minM2 = NM2[i];
+        if (NM3[i] > maxM3) maxM3 = NM3[i];
+        if (NM3[i] < minM3) minM3 = NM3[i];
     }
 
     printf("\n=== LISTA DE ESTUDIANTES ===\n");
@@ -102,31 +88,15 @@ int main()
     while (scanf("%d", &aux) != 1 || aux < 1 || aux > 5)
     {
         printf("Error: Ingrese un numero entre 1 y 5: ");
-        while (getchar() != '\n')
-        {
-        }
+        while (getchar() != '\n'); 
     }
-    aux--; 
+    aux--;
 
-    mine = NM1[aux];
-    maxe = NM1[aux];
-
-    if (NM2[aux] < mine)
-    {
-        mine = NM2[aux];
-    }
-    if (NM2[aux] > maxe)
-    {
-        maxe = NM2[aux];
-    }
-    if (NM3[aux] < mine)
-    {
-        mine = NM3[aux];
-    }
-    if (NM3[aux] > maxe)
-    {
-        maxe = NM3[aux];
-    }
+    mine = maxe = NM1[aux];
+    if (NM2[aux] < mine) mine = NM2[aux];
+    if (NM2[aux] > maxe) maxe = NM2[aux];
+    if (NM3[aux] < mine) mine = NM3[aux];
+    if (NM3[aux] > maxe) maxe = NM3[aux];
 
     float promedioEst = (NM1[aux] + NM2[aux] + NM3[aux]) / 3;
 
@@ -164,12 +134,9 @@ int main()
     int aprobadosM1 = 0, aprobadosM2 = 0, aprobadosM3 = 0;
     for (int i = 0; i < 5; i++)
     {
-        if (NM1[i] >= 6)
-            aprobadosM1++;
-        if (NM2[i] >= 6)
-            aprobadosM2++;
-        if (NM3[i] >= 6)
-            aprobadosM3++;
+        if (NM1[i] >= 6) aprobadosM1++;
+        if (NM2[i] >= 6) aprobadosM2++;
+        if (NM3[i] >= 6) aprobadosM3++;
     }
 
     printf("\n=== APROBADOS Y REPROBADOS ===\n");
